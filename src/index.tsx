@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {createContext} from "react"
 import './index.css';
 import App from './App';
-import SignIn from "./pages/SignIn"
 
 // import {Routes} from "./routes"
 

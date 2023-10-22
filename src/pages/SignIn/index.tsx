@@ -3,12 +3,12 @@ import { ThemeContext } from "../../hooks/themeContext"
 
 import React from 'react';
 import logo from './logo.svg';
-import './style.css';
+import '../SignIn/style.css';
 import { Button, Checkbox, Form, Input, ConfigProvider, theme } from 'antd';
 
 
 
-export default function SignIn() {
+export function SignIn() {
 
   const { useToken } = theme
 

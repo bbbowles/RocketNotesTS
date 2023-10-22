@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
-import SignIn from "./pages/SignIn";
+// import SignIn from "./pages/SignIn";
 import { ThemeContext } from "./hooks/themeContext";
+
+import {Routes} from "./routes/index"
 
 import { ConfigProvider } from "antd";
 
-import "./index.css";
+// import "./index.css";
 
 export function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -28,7 +30,7 @@ export function App() {
         token: theme === "light" ? lightTheme : darkTheme,
       }}
     >
-      <SignIn />
+      <Routes />
     </ConfigProvider>
   );
 }
