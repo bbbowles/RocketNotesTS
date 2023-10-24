@@ -9,13 +9,13 @@ body {
 
 }
 
-.formContainer {
+.formContainerSU {
+    max-height: 1080px;
     position: absolute;
     right: 0px;
     margin-right: 0;
     border: 1px solid #2F2E2E;
     text-align: center;
-    background-color: #2F2E2E;
 
     height: 100vh;
 
@@ -24,7 +24,7 @@ body {
 
 }
 
-.form {
+.formSU {
     display: block;
     text-align: center;
     align-self: center;
@@ -36,7 +36,7 @@ body {
     margin: 100px 0;
 }
 
-.formItem {
+.formItemSU {
     width: 70%;
     margin: 0 auto;
 }
@@ -44,10 +44,10 @@ body {
 h1 {
     font-size: 70px;
     color: white;
-    padding: 40px 40px 160px;
+    padding: 40px 40px 40px;
 }
 
-.submit-button {
+.submit-buttonSU {
     color: white;
     width: 200px;
     height: 50px;

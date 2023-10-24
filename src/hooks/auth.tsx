@@ -2,6 +2,11 @@ import {createContext, useContext, useState, useEffect, ReactNode} from "react"
 
 import {api} from "../services/api"
 
+interface userAuth{
+    user?:UserInterface,
+    signin:(data:SignInInterface)=>void
+}
+
 const AuthContext = createContext({})
 
 interface ChildrenInterface {
@@ -20,20 +25,23 @@ interface UserInterface{
     avatar:string,
 }
 
-interface SessionResponse{
-    user:object,
-    token:string
-}
-function AuthProvider(children : ChildrenInterface){
-    const [data,setData] = useState({}) 
+const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
+    const [data,setData] = useState({
+        user:{},
+        token:""
+    }) 
 
     async function signIn(data : SignInInterface){
+        console.log("chegou no hook", data)
         try{
             const response = await api.post("http://localhost:3002/sessions", {email:data.email,password:data.password})
             const {user, token} = response.data
 
             localStorage.setItem("@rocketnotes:user", JSON.stringify(user)) //enviamos em string
             localStorage.setItem("@rocketnotes:token", token)
+
+            console.log({user,token})
+
 
             setData({user,token})
             api.defaults.headers.common["Authorization"] = `Bearer ${token}` //insere depois da criacao da sessao, o token no header do axios
@@ -53,7 +61,10 @@ function AuthProvider(children : ChildrenInterface){
     function signOut(){
          localStorage.clear()
 
-         setData({})
+         setData({
+            user:{},
+            token:""
+         })
     }
 
     async function updateProfile(user: UserInterface, avatarFile : string){
@@ -73,14 +84,16 @@ function AuthProvider(children : ChildrenInterface){
             alert("perfil atualizado")
 
         }catch(error){
-            if(error.response){
-                alert(error.response.data.message)
-            }else{
-                alert("erro interno")
-            }
+            alert(error)
+            // if(error.response){
+            //     alert(error.response.data.message)
+            // }else{
+            //     alert("erro interno")
+            // }
 
-            }
+            // }
     }
+}
 
     useEffect(()=>{
         const token = localStorage.getItem("@rocketnotes:token")
@@ -102,7 +115,6 @@ function AuthProvider(children : ChildrenInterface){
         </AuthContext.Provider>
     )
 }
-
 function useAuth(){
     const context = useContext(AuthContext)
 
@@ -110,4 +122,4 @@ function useAuth(){
     
 }
 
-export {AuthProvider, useAuth}
+export {AuthProviderFunction, useAuth}

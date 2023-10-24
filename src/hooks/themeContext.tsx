@@ -3,12 +3,12 @@ import { ConfigProvider } from "antd";
 
 // Definição do tipo do contexto
 interface ThemeContextType {
-  theme: "light" | "dark";
+  currentTheme: "light" | "dark";
   toggleTheme: () => void;
 }
 
 export const ThemeContext = createContext<ThemeContextType>({
-  theme: "light",
+  currentTheme: "light",
   toggleTheme: () => {},
 });
 
@@ -19,20 +19,20 @@ interface ThemeContextProviderProps {
 export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({
   children,
 }) => {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("light");
 
   const toggleTheme = () => {
-    if (theme === "light") {
+    if (currentTheme === "light") {
       document.body.setAttribute("data-theme", "dark");
-      setTheme("dark");
+      setCurrentTheme("dark");
     } else {
       document.body.removeAttribute("data-theme");
-      setTheme("light");
+      setCurrentTheme("light");
     }
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

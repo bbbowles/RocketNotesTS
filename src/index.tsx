@@ -7,6 +7,8 @@ import App from './App';
 
 import {ThemeContextProvider} from "../src/hooks/themeContext"
 
+import { AuthProviderFunction } from './hooks/auth';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeContextProvider>
-      <App/>
+      <AuthProviderFunction>
+        <App/>
+      </AuthProviderFunction>
     </ThemeContextProvider>
   </React.StrictMode>
 );

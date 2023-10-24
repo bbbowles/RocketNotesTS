@@ -6,10 +6,12 @@ import {Routes} from "./routes/index"
 
 import { ConfigProvider } from "antd";
 
+import { theme } from "antd"
+
 // import "./index.css";
 
 export function App() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { currentTheme, toggleTheme } = useContext(ThemeContext);
 
   const lightTheme = {
     colorPrimary: "green",
@@ -27,7 +29,7 @@ export function App() {
   return (
     <ConfigProvider
       theme={{
-        token: theme === "light" ? lightTheme : darkTheme,
+        algorithm: currentTheme === "light" ? theme.defaultAlgorithm : theme.darkAlgorithm,
       }}
     >
       <Routes />

@@ -32,7 +32,7 @@ export function SignUp() {
     return (
         <div className="test">
 
-            <div className="formContainer"
+            <div className="formContainerSU"
                 style={{
                     backgroundColor: token.colorPrimaryBg,
                     padding: token.padding,
@@ -46,7 +46,7 @@ export function SignUp() {
                     Rocket Notes
                 </h1>
                 <Form
-                    className="form"
+                    className="formSU"
                     name="basic"
                     style={{ maxWidth: 600 }}
                     initialValues={{ remember: true }}
@@ -65,7 +65,7 @@ export function SignUp() {
                     </Form.Item>    
                     <p>Email</p>
                     <Form.Item<FieldType>
-                        className="formItem"
+                        className="formItemSU"
                         name="email"
                         rules={[{ required: true, message: 'Por favor, digite seu email' }]}
                         style={{ maxWidth: 600 }}
@@ -76,7 +76,7 @@ export function SignUp() {
                     <p>Senha</p>
 
                     <Form.Item<FieldType>
-                        className="formItem"
+                        className="formItemSU"
                         name="password"
                         rules={[{ required: true, message: 'Por favor, digite sua senha' }]}
                     >
@@ -84,7 +84,7 @@ export function SignUp() {
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" className='submit-button'>
+                        <Button type="primary" htmlType="submit" className='submit-buttonSU'>
                             Entrar
                         </Button>
                     </Form.Item>

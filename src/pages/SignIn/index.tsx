@@ -6,23 +6,24 @@ import logo from './logo.svg';
 import '../SignIn/style.css';
 import { Button, Checkbox, Form, Input, ConfigProvider, theme } from 'antd';
 
+import {useAuth} from "../../hooks/auth"
+
 
 
 export function SignIn() {
-
+  
   const { useToken } = theme
 
   const { token } = useToken()
 
   const { toggleTheme } = useContext(ThemeContext)
 
-  useEffect(()=>{
-    console.log(theme)
-  },[theme])
+  const {signIn} = useAuth()
 
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: FieldType) => {
     console.log('Success:', values);
+    signIn({email:values.email, password:values.password})
   };
 
   const onFinishFailed = (errorInfo: any) => {
