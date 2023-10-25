@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode, useEffect } from "react";
 import { ConfigProvider } from "antd";
 
 // Definição do tipo do contexto
@@ -19,14 +19,26 @@ interface ThemeContextProviderProps {
 export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({
   children,
 }) => {
-  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("light");
+
+
+  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("dark");
+
+  const localStorageTheme = localStorage.getItem("@rocketnotes:theme")
+
+  useEffect(()=>{
+    if(localStorageTheme){
+      setCurrentTheme(localStorageTheme)
+    }
+  },[])
+
+ 
 
   const toggleTheme = () => {
     if (currentTheme === "light") {
-      document.body.setAttribute("data-theme", "dark");
+      localStorage.setItem("@rocketnotes:theme", "dark")
       setCurrentTheme("dark");
     } else {
-      document.body.removeAttribute("data-theme");
+      localStorage.setItem("@rocketnotes:theme", "light")
       setCurrentTheme("light");
     }
   };

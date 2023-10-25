@@ -25,11 +25,13 @@ interface UserInterface{
     avatar:string,
 }
 
+interface SessionInterface{
+    user:UserInterface,
+    token:string | undefined
+}
+
 const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
-    const [data,setData] = useState({
-        user:{},
-        token:""
-    }) 
+    const [data,setData] = useState<SessionInterface | null>(null) 
 
     async function signIn(data : SignInInterface){
         console.log("chegou no hook", data)
@@ -61,10 +63,7 @@ const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
     function signOut(){
          localStorage.clear()
 
-         setData({
-            user:{},
-            token:""
-         })
+         setData(null)
     }
 
     async function updateProfile(user: UserInterface, avatarFile : string){
@@ -80,7 +79,7 @@ const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
             await api.put("http://localhost:3002/users", user)
             localStorage.setItem("@rocketnotes:user", JSON.stringify(user))
 
-            setData({user,token:data.token})
+            setData({user,token:data?.token})
             alert("perfil atualizado")
 
         }catch(error){
@@ -110,7 +109,7 @@ const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
 
     return(
         //passamos no context o signin, signout e o user data, por isso podemos acessar a funcao pelo useAuth()
-        <AuthContext.Provider value={{signIn,signOut,updateProfile, user: data.user}}> 
+        <AuthContext.Provider value={{signIn,signOut,updateProfile, user: data?.user}}> 
             {children}
         </AuthContext.Provider>
     )

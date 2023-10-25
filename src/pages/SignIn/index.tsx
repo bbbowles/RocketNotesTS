@@ -8,6 +8,8 @@ import { Button, Checkbox, Form, Input, ConfigProvider, theme } from 'antd';
 
 import {useAuth} from "../../hooks/auth"
 
+import { ThemeButton } from "../../components/ThemeButton";
+
 
 
 export function SignIn() {
@@ -93,7 +95,10 @@ export function SignIn() {
             </Button>
           </Form.Item>
         </Form>
-        <Button type="primary" onClick={toggleTheme}>Mudar tema</Button>
+        <div className="bottomPartAuthButtons">
+          <ThemeButton/>
+          <Button type="primary" onClick={()=>{}}>Cadastre-se!</Button>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,10 @@
-import { useState, useContext, useEffect } from "react"
+import { useState, useContext, useEffect, useCallback } from "react"
 import { ThemeContext } from "../../hooks/themeContext"
 import { Button, Checkbox, Form, Input, ConfigProvider, theme } from 'antd';
-import './style.css';
+import  './style.css';
+import { api } from "../../services/api";
+import { ThemeButton } from "../../components/ThemeButton";
+
 
 export function SignUp() {
 
@@ -11,14 +14,27 @@ export function SignUp() {
 
     const { toggleTheme } = useContext(ThemeContext)
 
+    interface userInterface{
+        username:string,
+        email:string,
+        password:string
+    }
+
     useEffect(() => {
         console.log(theme)
     }, [theme])
 
 
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
-    };
+    const onFinish = useCallback((values:userInterface):void=>{
+        async function createUser(){
+            await api.post("http://localhost:3002/users",{
+                "name": values.username,
+                "email": values.email,
+                "password": values.password
+            })
+        }
+        createUser()
+    },[]);
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
@@ -56,6 +72,7 @@ export function SignUp() {
                 >
                     <p>Nome</p>
                     <Form.Item<FieldType>
+                        className="formItemSU"
                         name="username"
                         rules={[{ required: true, message: 'Por favor, digite seu nome' }]}
                         style={{ maxWidth: 600 }}
@@ -85,11 +102,14 @@ export function SignUp() {
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" className='submit-buttonSU'>
-                            Entrar
+                            Criar conta
                         </Button>
                     </Form.Item>
                 </Form>
-                <Button type="primary" onClick={toggleTheme}>Mudar tema</Button>
+                <div className="bottomPartAuthButtons">
+                    <ThemeButton/>
+                    <Button type="primary" onClick={()=>{}}>Ja tem uma conta?</Button>
+                </div>
             </div>
         </div>
     );
