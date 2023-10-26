@@ -4,6 +4,8 @@ import { Button, Checkbox, Form, Input, ConfigProvider, theme } from 'antd';
 import  './style.css';
 import { api } from "../../services/api";
 import { ThemeButton } from "../../components/ThemeButton";
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 
 
 export function SignUp() {
@@ -12,7 +14,7 @@ export function SignUp() {
 
     const { token } = useToken()
 
-    const { toggleTheme } = useContext(ThemeContext)
+    const navigate = useNavigate()
 
     interface userInterface{
         username:string,
@@ -32,6 +34,15 @@ export function SignUp() {
                 "email": values.email,
                 "password": values.password
             })
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Sua conta foi criada!',
+                icon: 'success',
+                confirmButtonText: 'ok!'
+              })
+            navigate("/")
+              
+
         }
         createUser()
     },[]);
@@ -108,7 +119,7 @@ export function SignUp() {
                 </Form>
                 <div className="bottomPartAuthButtons">
                     <ThemeButton/>
-                    <Button type="primary" onClick={()=>{}}>Ja tem uma conta?</Button>
+                    <Button type="primary" onClick={()=>navigate("/")}>Ja tem uma conta?</Button>
                 </div>
             </div>
         </div>

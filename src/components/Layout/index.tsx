@@ -16,16 +16,16 @@ import { Breadcrumb, Layout, Menu, theme, Button, MenuProps } from 'antd';
 import { useState } from "react";
 import { ThemeContext } from "../../hooks/themeContext"
 import { ThemeButton } from "../ThemeButton";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 export function LayoutComponent({ children }: { children: ReactNode }) {
     const { useToken } = theme
     const { token } = useToken()
-
     const { toggleTheme } = useContext(ThemeContext)
-
-
+    const navigate = useNavigate()
 
     type MenuItem = Required<MenuProps>['items'][number]
 
@@ -63,14 +63,14 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
     const items: MenuItem[] = [
 
         getItem('Carros', 'sub1', <MailOutlined />, [
-            getItem('Criar', '1',),
-            getItem('Listar', '2'),
+            getItem('Criar', 'criarcarro',),
+            getItem('Listar', 'listarcarro'),
 
         ]),
 
         getItem('Endereço', 'sub2', <AppstoreOutlined />, [
-            getItem('Criar', '3'),
-            getItem('Listar', '4'),
+            getItem('Criar', 'criarendereco'),
+            getItem('Listar', 'listarendereco'),
         ]),
     ];
 
@@ -101,28 +101,39 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
 
     }
 
+    function handleSignOut(){
+        Swal.fire({
+            title: 'Tem certeza que deseja sair?',
+            icon: 'warning',
+            confirmButtonText: 'Sim',
+            showCancelButton:true,
+            cancelButtonText: "Nao"
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                signOut()
+                navigate("/")
+                return
+            }
+        })
+    }
+
     const { user } = useAuth()
     const { signOut } = useAuth()
-
-    useEffect(() => {
-        console.log(user)
-    })
-
 
 
     return (
         <Layout style={{ width: "100vw" }}>
             <Header style={headerStyle}>
                 <p style={{ backgroundColor: "orange", height: "100%", color: token.colorTextBase }}>Rocket Notes</p>
-                <h3>Bem Vindo {user.name}</h3>
+                <h3>Bem Vindo {user?.name}</h3>
                 <div>
                     <Button
                         type="primary"
                         icon={<PoweroffOutlined />}
                         loading={loadings[2]}
                         onClick={() => {
-                            enterLoading(2)
-                            signOut()
+                            handleSignOut()
                         }}
                     />
                     <ThemeButton/>
@@ -134,6 +145,7 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
                         mode="vertical"
                         inlineCollapsed={collapsed}
                         items={items}
+                        onClick={(e)=>navigate("/"+e.key)}
                     >
                     </Menu>
                 </Sider>

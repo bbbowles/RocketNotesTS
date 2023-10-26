@@ -7,6 +7,10 @@ interface ThemeContextType {
   toggleTheme: () => void;
 }
 
+interface LocalStorageThemeInterface{
+  localStorageTheme: "light" | "dark"
+}
+
 export const ThemeContext = createContext<ThemeContextType>({
   currentTheme: "light",
   toggleTheme: () => {},
@@ -23,11 +27,20 @@ export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({
 
   const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("dark");
 
-  const localStorageTheme = localStorage.getItem("@rocketnotes:theme")
 
   useEffect(()=>{
+  const localStorageTheme = localStorage.getItem("@rocketnotes:theme")
+
+    // if(localStorageTheme){
+    //   setCurrentTheme(localStorageTheme)
+    // }
+    
     if(localStorageTheme){
-      setCurrentTheme(localStorageTheme)
+      if(localStorageTheme==="dark"){
+        setCurrentTheme("dark")
+      }else{
+        setCurrentTheme("light")
+      }
     }
   },[])
 

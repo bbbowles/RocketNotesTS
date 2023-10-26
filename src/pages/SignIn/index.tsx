@@ -10,6 +10,8 @@ import {useAuth} from "../../hooks/auth"
 
 import { ThemeButton } from "../../components/ThemeButton";
 
+import { useNavigate } from "react-router-dom";
+
 
 
 export function SignIn() {
@@ -19,6 +21,8 @@ export function SignIn() {
   const { token } = useToken()
 
   const { toggleTheme } = useContext(ThemeContext)
+
+  const navigate = useNavigate()
 
   const {signIn} = useAuth()
 
@@ -97,7 +101,7 @@ export function SignIn() {
         </Form>
         <div className="bottomPartAuthButtons">
           <ThemeButton/>
-          <Button type="primary" onClick={()=>{}}>Cadastre-se!</Button>
+          <Button type="primary" onClick={()=>navigate("/register")}>Cadastre-se!</Button>
         </div>
       </div>
     </div>

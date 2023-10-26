@@ -2,20 +2,19 @@ import {createContext, useContext, useState, useEffect, ReactNode} from "react"
 
 import {api} from "../services/api"
 
-interface userAuth{
-    user?:UserInterface,
-    signin:(data:SignInInterface)=>void
-}
+// interface userAuth{
+//     user?:UserInterface,
+//     signin:(data:SignInInterface)=>void
+// }
 
-const AuthContext = createContext({})
 
 interface ChildrenInterface {
     children:ReactNode
 }
 
 interface SignInInterface{
-    email:string,
-    password:string
+    email:string | undefined,
+    password:string | undefined
 }
 
 interface UserInterface{
@@ -29,6 +28,39 @@ interface SessionInterface{
     user:UserInterface,
     token:string | undefined
 }
+
+interface contextInterface{
+    signIn:({email,password}:SignInInterface)=>void,
+    signOut:()=>void,
+    updateProfile:(user:{
+        name:string,
+        email:string,
+        password:string,
+        avatar:string},
+        avatarFile?:string)=>void,
+    user:UserInterface
+}
+interface updateProfileInterface{
+    user:{
+        name:string,
+        email:string,
+        password:string,
+        avatar:string,},
+    avatarFile?:string
+}
+interface UserAuth{
+    user?:{name: string},
+    signIn:(data: SignInInterface)=> void
+    signOut: () => void,
+    updateProfile:(user:{
+        name:string,
+        email:string,
+        password:string,
+        avatar:string,},avatarFile?:string)=>void
+  }
+
+  const AuthContext = createContext({} as UserAuth);
+
 
 const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
     const [data,setData] = useState<SessionInterface | null>(null) 
@@ -66,7 +98,12 @@ const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
          setData(null)
     }
 
-    async function updateProfile(user: UserInterface, avatarFile : string){
+    async function updateProfile(user:{
+        name:string,
+        email:string,
+        password:string,
+        avatar:string},
+        avatarFile:string | undefined){
         try{
             if(avatarFile){
                 const fileUploadForm = new FormData()
@@ -115,7 +152,7 @@ const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
     )
 }
 function useAuth(){
-    const context = useContext(AuthContext)
+    const context  = useContext(AuthContext)
 
     return context
     
