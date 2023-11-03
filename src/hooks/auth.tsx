@@ -2,10 +2,7 @@ import {createContext, useContext, useState, useEffect, ReactNode} from "react"
 
 import {api} from "../services/api"
 
-// interface userAuth{
-//     user?:UserInterface,
-//     signin:(data:SignInInterface)=>void
-// }
+import Swal from "sweetalert2"
 
 
 interface ChildrenInterface {
@@ -81,14 +78,14 @@ const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
             api.defaults.headers.common["Authorization"] = `Bearer ${token}` //insere depois da criacao da sessao, o token no header do axios
 
 
-        }catch(error : unknown){
-            alert("erro interno")
-            // if(error.response){
-            //     alert(error.response.data.message)
-            // }else{
-            //     alert("erro interno")
-            // }
-        }
+        }catch (e: any) {
+            Swal.fire({
+              title: e.response.data.message,
+              icon: 'warning',
+              confirmButtonText: 'Ok',
+    
+            })
+          }
     
     }
 
@@ -117,18 +114,21 @@ const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
             localStorage.setItem("@rocketnotes:user", JSON.stringify(user))
 
             setData({user,token:data?.token})
-            alert("perfil atualizado")
+                Swal.fire({
+                  title: "Perfil atualizado com sucesso!",
+                  icon: 'success',
+                  confirmButtonText: 'Ok!',
+        
+                })
 
-        }catch(error){
-            alert(error)
-            // if(error.response){
-            //     alert(error.response.data.message)
-            // }else{
-            //     alert("erro interno")
-            // }
-
-            // }
-    }
+        }catch (e: any) {
+            Swal.fire({
+              title: e.response.data.message,
+              icon: 'warning',
+              confirmButtonText: 'Ok',
+    
+            })
+          }
 }
 
     useEffect(()=>{

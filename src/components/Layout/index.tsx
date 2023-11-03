@@ -82,7 +82,8 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
         borderBottom: "3px solid rgba(255,255,255,0.2)",
         maxWidth: "100",
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        padding: "0 50px 0 10px"
     };
 
     const siderStyle: React.CSSProperties = {
@@ -90,25 +91,20 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
         color: '#fff',
         backgroundColor: token.colorBgBase,
         height: "100vh",
-        display:"flex",
-        flexDirection:"column",
-        justifyContent:"flex-end"
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end"
     };
 
-    const linkButtonStyle: React.CSSProperties = {
-        backgroundColor: "red",
-        border: "1px solid black"
 
-    }
-
-    function handleSignOut(){
+    function handleSignOut() {
         Swal.fire({
             title: 'Tem certeza que deseja sair?',
             icon: 'warning',
             confirmButtonText: 'Sim',
-            showCancelButton:true,
+            showCancelButton: true,
             cancelButtonText: "Nao"
-          }).then((result) => {
+        }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 signOut()
@@ -124,8 +120,11 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
 
     return (
         <Layout style={{ width: "100vw" }}>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
+            </style>
             <Header style={headerStyle}>
-                <p style={{ backgroundColor: "orange", height: "100%", color: token.colorTextBase }}>Rocket Notes</p>
+                <Link to="/" style={{fontFamily: 'Roboto',fontSize:"35px", height: "100%", color: token.colorTextBase, minWidth: "11%" }}>Rocket Notes</Link>
                 <h3>Bem Vindo {user?.name}</h3>
                 <div>
                     <Button
@@ -136,7 +135,7 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
                             handleSignOut()
                         }}
                     />
-                    <ThemeButton/>
+                    <ThemeButton />
                 </div>
             </Header>
             <Layout>
@@ -145,11 +144,11 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
                         mode="vertical"
                         inlineCollapsed={collapsed}
                         items={items}
-                        onClick={(e)=>navigate("/"+e.key)}
+                        onClick={(e) => navigate("/" + e.key)}
                     >
                     </Menu>
                 </Sider>
-                <Content style={{ backgroundColor: "grey" }}>
+                <Content style={{ backgroundColor: token.colorFillSecondary, border: `2px solid ${token.colorText}` }}>
                     {children}
                 </Content>
             </Layout>
