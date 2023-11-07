@@ -64,6 +64,7 @@ const AuthProviderFunction : React.FC<ChildrenInterface> = ({children}) =>{
 
     async function signIn(data : SignInInterface){
         console.log("chegou no hook", data)
+        console.log(data)
         try{
             const response = await api.post("http://localhost:3002/sessions", {email:data.email,password:data.password})
             const {user, token} = response.data

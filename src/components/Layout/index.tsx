@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useContext } from "react";
+import { ReactNode, useEffect, useContext, useCallback } from "react";
 import "./style.css"
 import {
     AppstoreOutlined,
@@ -8,7 +8,9 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     PieChartOutlined,
-    PoweroffOutlined
+    PoweroffOutlined,
+    CarOutlined,
+    HomeOutlined
 } from '@ant-design/icons';
 import { useAuth } from "../../hooks/auth"
 import { Link } from "react-router-dom"
@@ -62,13 +64,13 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
 
     const items: MenuItem[] = [
 
-        getItem('Carros', 'sub1', <MailOutlined />, [
+        getItem('Carros', 'sub1', <CarOutlined />, [
             getItem('Criar', 'criarcarro',),
             getItem('Listar', 'listarcarro'),
 
         ]),
 
-        getItem('Endereço', 'sub2', <AppstoreOutlined />, [
+        getItem('Endereço', 'sub2', <HomeOutlined />, [
             getItem('Criar', 'criarendereco'),
             getItem('Listar', 'listarendereco'),
         ]),
@@ -77,7 +79,7 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
     const headerStyle: React.CSSProperties = {
         color: token.colorTextBase,
         lineHeight: '64px',
-        backgroundColor: token.colorBgBase,
+        backgroundColor: token.colorFillSecondary,
         justifyContent: "space-between",
         borderBottom: "3px solid rgba(255,255,255,0.2)",
         maxWidth: "100",
@@ -89,11 +91,20 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
     const siderStyle: React.CSSProperties = {
         textAlign: 'center',
         color: '#fff',
-        backgroundColor: token.colorBgBase,
+        backgroundColor: token.colorFillSecondary,
         height: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end"
+    };
+    const siderStyleMobile: React.CSSProperties = {
+        textAlign: 'center',
+        color: '#fff',
+        backgroundColor: token.colorFillSecondary,
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
     };
 
 
@@ -118,14 +129,23 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
     const { signOut } = useAuth()
 
 
+    const responsiviness = useCallback((): boolean => {
+        if (window.screen.width < 576) {
+            return true
+        } else {
+            return false
+        }
+    }, [])
+
+
     return (
         <Layout style={{ width: "100vw" }}>
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
             </style>
             <Header style={headerStyle}>
-                <Link to="/" style={{fontFamily: 'Roboto',fontSize:"35px", height: "100%", color: token.colorTextBase, minWidth: "11%" }}>Rocket Notes</Link>
-                <h3>Bem Vindo {user?.name}</h3>
+                <Link to="/" style={responsiviness() ? { fontFamily: 'Roboto', fontSize: "17px", height: "100%", color: token.colorTextBase, minWidth: "11%" } : { fontFamily: 'Roboto', fontSize: "35px", height: "100%", color: token.colorTextBase, minWidth: "11%" }}>Rocket Notes</Link>
+                <h3 style={responsiviness() ? {fontSize:"15px", paddingLeft:"20px"} : {}}>Bem Vindo {user?.name}</h3>
                 <div>
                     <Button
                         type="primary"
@@ -139,8 +159,15 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
                 </div>
             </Header>
             <Layout>
-                <Sider className="sider" style={siderStyle}>
+                <Sider
+                    collapsedWidth="45"
+                    breakpoint="sm"
+
+                    className="sider"
+                    style={responsiviness() ? siderStyleMobile : siderStyle}
+                >
                     <Menu
+                        style={{ backgroundColor: "transparent" }}
                         mode="vertical"
                         inlineCollapsed={collapsed}
                         items={items}
@@ -148,7 +175,7 @@ export function LayoutComponent({ children }: { children: ReactNode }) {
                     >
                     </Menu>
                 </Sider>
-                <Content style={{ backgroundColor: token.colorFillSecondary, border: `2px solid ${token.colorText}` }}>
+                <Content style={{ backgroundColor: token.colorBgSpotlight, border: `2px solid ${token.colorText}` }}>
                     {children}
                 </Content>
             </Layout>

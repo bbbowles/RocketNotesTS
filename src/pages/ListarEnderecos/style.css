@@ -1,0 +1,30 @@
+.formItemContainer{
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 210px;
+}
+.formItemLabel{
+    vertical-align: middle;
+    margin: 0 auto;
+}
+.formItem{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 auto;
+    width: 90%;
+}
+.formItemContainerModal{
+    display: block;
+    vertical-align: middle;
+    max-width: 210px;
+}
+.formItemLabelModal{
+    vertical-align: middle;
+    margin: 0 auto;
+}
+.formItemModal{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 auto;
+    width: 90%;
+}

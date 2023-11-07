@@ -1,7 +1,7 @@
 import { Button } from "antd"
 import { BulbOutlined, BulbFilled } from '@ant-design/icons'
 import { ThemeContext } from "../../hooks/themeContext"
-import { useContext, useEffect, useRef } from "react"
+import { useCallback, useContext, useEffect, useRef } from "react"
 
 export function ThemeButton() {
 
@@ -9,24 +9,42 @@ export function ThemeButton() {
 
     const isDark = useRef<true | false>()
 
-    const localStorageTheme = localStorage.getItem("@rocketnotes:theme")
+    const localStorageTheme = useRef<string>("dark")
 
-    useEffect(()=>{
-        if (!localStorageTheme || localStorageTheme == "dark") {
-            isDark.current = true
-        }else{
-            isDark.current = false
+    const localStorageThemeFetch = useCallback((): void => {
+        async function fetch() {
+            const result = await localStorage.getItem("@rocketnotes:theme")!
+
+            localStorageTheme.current = result
+
         }
+        fetch()
+
+
+    }, [])
+
+    useEffect(() => {
+        async function wait(){
+            await localStorageThemeFetch()
+            if (localStorageTheme.current == "dark") {
+                isDark.current = true
+            } else {
+                isDark.current = false
+            }
+        }
+        wait()
+
         
-    },[localStorageTheme])
+    }, [localStorageTheme])
 
 
     return (
         <Button
             type="primary"
-            icon={isDark.current ? <BulbFilled /> : <BulbOutlined />}
+            icon={isDark.current ? <BulbOutlined /> :<BulbFilled /> }
             onClick={() => {
                 toggleTheme()
+                isDark.current = !isDark.current
             }}
         >
 

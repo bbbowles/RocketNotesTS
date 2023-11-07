@@ -5,7 +5,7 @@ import { api } from "../../../services/api";
 import { AnyObject } from "antd/es/_util/type";
 import { AxiosResponse } from "axios";
 import type { ColumnsType } from 'antd/es/table'
-import { Space } from "antd";
+import { Space,Form,Input } from "antd";
 import { EditButton } from "../../../components/EditButton";
 import { DeleteButton } from "../../../components/DeleteButton";
 export function ListarCarros() {

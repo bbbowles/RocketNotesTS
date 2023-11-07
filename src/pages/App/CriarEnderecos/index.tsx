@@ -208,8 +208,8 @@ export function CriarEnderecos() {
                     name="cep"
                     rules={[{ required: true, message: "Por favor digite o cep" }]}>
                     <InputNumber
-                        min={1111111}
-                        max={9999999}
+                        min={11111111}
+                        max={99999999}
                         id="cep"
                         type="number"
                         style={{ width: "300px"}}

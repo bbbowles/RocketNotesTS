@@ -8,6 +8,8 @@ import { ConfigProvider } from "antd";
 
 import { theme } from "antd"
 
+// import 'dotenv/config'
+
 
 // import "./index.css";
 

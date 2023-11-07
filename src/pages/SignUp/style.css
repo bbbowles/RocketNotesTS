@@ -4,7 +4,7 @@ body {
     background: url("../../images/465351-323827849.jpg") no-repeat center center;
     display: flex;
 
-    overflow-y: hidden;
+    overflow-y: scroll
 
 
 }
